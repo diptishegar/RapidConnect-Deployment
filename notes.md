@@ -11,10 +11,12 @@ AI will accelerate debugging, when I already have the context.
 ```
 
 #### Each Day's Goals: 
-26-12-2025
+**26-12-2025** \
 Create docker files for frontend, backend, test connectivity from application to the redis, database. \
-Function the application only on Docker locally
+Function the application only on Docker locally \
+Install Kubernetes on AWS Ec2 \
 Write deployment, kubernetes files run the application on Kubernetes locally. \
+Watch how to use API Gatw to expose appn. \
 
 
 

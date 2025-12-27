@@ -4,7 +4,7 @@ import './App.css'
 function App() {
   const [value, updateValue] = useState("create new data");
   const [input, setInput] = useState("");
-  const baseUrl = "http://192.168.229.130:5001";
+  const baseUrl = "http://13.233.236.142:5001";
   const getDataUrl = `${baseUrl}/data`;
   const createDataUrl = `${baseUrl}/create`;
   const getData = async () => {
