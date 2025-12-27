@@ -23,4 +23,12 @@ Watch how to use API Gatw to expose appn. \
 
 ##### **Credentials** 
 * Github Repo : https://github.com/diptishegar/RapidConnect-Deployment.git
+* server Public IP : 13.201.90.179
+
+
+run docker-compose up -d \
+
+**Try sending some data to the backend**
+curl -X POST http://13.233.236.142:5001/create -H "Content-Type: application/json" -d '{"data":"hello"}'
+
 
