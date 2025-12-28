@@ -4,6 +4,8 @@ services:
   client:
     container_name: "client-app"
     build: ./client-app/.
+    environment:
+      - EC2_SERVER_IP=${EC2_SERVER_IP}
     ports:
       - '3000:3000'
     networks:

@@ -23,6 +23,8 @@ Watch how to use API Gatw to expose appn. \
 
 ##### **Credentials** 
 * Github Repo : https://github.com/diptishegar/RapidConnect-Deployment.git
+* Github provider Url : https://token.actions.githubusercontent.com, Audience: sts.amazonaws.com 
+* Github OIDC ARN : arn:aws:iam::857565654393:oidc-provider/token.actions.githubusercontent.com
 * server Public IP : 13.201.90.179
 
 

@@ -1,0 +1,45 @@
+name: CI pipeline for Frontend service to build and push Docker images to ECR
+on:
+    push: # To maintain simplicity, only triggering on push events to main branch
+        branches:
+        - main
+    workflow_dispatch:
+permissions:
+  id-token: write # Required for requesting the Github Provider OIDC token
+  contents: read 
+
+jobs:
+    build-push-ecr:
+        if: |
+            github.event_name == 'workflow_dispatch' ||
+            contains(github.event.head_commit.message, 'ci-run') 
+        runs-on: ubuntu-latest
+        steps: 
+            - uses: actions/checkout@v3         
+            - uses: dorny/paths-filter@v3
+              id: filter
+              with:
+                filters: |
+                    client-app:
+                        - 'docker/client-app/**'
+                    api-server:
+                        - 'docker/api-server/**'
+                    worker-server:
+                        - 'docker/worker-server/**'
+                    db:
+                        - 'docker/db/**'
+            - name: Configure AWS credentials
+              uses: aws-actions/configure-aws-credentials@v4
+              with:
+                    role-to-assume: ${{ secrets.GITHUB_ACTIONS_ECR_ARN }}
+                    aws-region: ${{ secrets.AWS_REGION }}
+            - name: Login to ECR
+              uses: aws-actions/amazon-ecr-login@v2
+            - name: Build and push Client App to ECR
+              uses: ./.github/actions/build-push-ecr
+              if: steps.filter.outputs.client-app == 'true'
+              with:
+                service_name: /docker/client-app/
+                image_tag: client-app-latest
+                dockerfile_path: docker/client-app/
+                ecr_repo_name: ${{ secrets.ECR_REPO_NAME }}

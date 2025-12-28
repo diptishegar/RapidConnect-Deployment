@@ -1,0 +1,28 @@
+name: 'Reusable Build, Push Docker Image to ECR'
+description: 'Resuable workflow that builds and pushes Docker images to Amazon ECR'
+inputs:
+  service_name:
+    description: 'Folder path of the service to build and push'
+    required: true
+  image_tag:
+    description: 'Tag for the Docker image'
+    required: true
+  dockerfile_path:
+    description: 'Path to the Dockerfile'
+    required: true
+  ecr_repo_name:
+    description: 'ECR Repository Name'
+    required: true
+runs:
+  using: "composite"
+  steps:
+  - name: Checkout code
+    uses: actions/checkout@v3
+  - name: Build and push Docker image to ECR
+    uses: docker/build-push-action@v4
+    with:
+        context: ${{ inputs.service_name }}
+        file: ${{ inputs.dockerfile_path }}
+        push: true
+        tags: ${{ inputs.ecr_repo_name }}:${{ inputs.image_tag }}
+
