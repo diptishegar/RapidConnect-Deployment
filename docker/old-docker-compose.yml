@@ -3,7 +3,7 @@ version: '3'
 services:
   client:
     container_name: "client-app"
-    image: ${ECR_REPO_NAME}:rapid-client-app
+    build: ./client-app/.
     environment:
       - EC2_SERVER_IP=${EC2_SERVER_IP}
     ports:
@@ -18,7 +18,7 @@ services:
 
   api-server:
     container_name: "api-server"
-    image: ${ECR_REPO_NAME}:rapid-api-server
+    build: ./api-server/.
     environment:
       - PORT=5001
       - REDIS_PASSWORD=${REDIS_PASSWORD}
@@ -41,7 +41,7 @@ services:
 
   worker-server:
     container_name: "worker-server"
-    image: ${ECR_REPO_NAME}:rapid-worker-server
+    build: ./worker-server/.
     environment:
       - PORT=5002
       - REDIS_PASSWORD=${REDIS_PASSWORD}
@@ -61,7 +61,7 @@ services:
 
   db:
     container_name: "mysql-db"
-    image: ${ECR_REPO_NAME}:rapid-db
+    build: ./db/.
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     # ports:
