@@ -39,7 +39,7 @@ jobs:
               uses: ./.github/actions/build-push-ecr
               if: steps.filter.outputs.client-app == 'true'
               with:
-                service_name: /docker/client-app/
+                service_name: docker/client-app/
                 image_tag: rapid-client-app
-                dockerfile_path: docker/client-app/
+                dockerfile_path: docker/client-app/Dockerfile
                 ecr_repo_name: ${{ secrets.ECR_REPO_NAME }}
