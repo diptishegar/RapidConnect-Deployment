@@ -35,11 +35,39 @@ jobs:
                     aws-region: ${{ secrets.AWS_REGION }}
             - name: Login to ECR
               uses: aws-actions/amazon-ecr-login@v2
-            - name: Build and push Client App to ECR
+              
+            - name: Build and push Client App (Frontend) to ECR
               uses: ./.github/actions/build-push-ecr
               if: steps.filter.outputs.client-app == 'true'
               with:
                 service_name: docker/client-app/
                 image_tag: rapid-client-app
                 dockerfile_path: docker/client-app/Dockerfile
+                ecr_repo_name: ${{ secrets.ECR_REPO_NAME }}
+
+            - name: Build and push API-server (Backend) App to ECR
+              uses: ./.github/actions/build-push-ecr
+              if: steps.filter.outputs.api-server == 'true'
+              with:
+                service_name: docker/api-server/
+                image_tag: rapid-api-server
+                dockerfile_path: docker/api-server/Dockerfile
+                ecr_repo_name: ${{ secrets.ECR_REPO_NAME }}
+
+            - name: Build and push Worker-server (Worker) to ECR
+              uses: ./.github/actions/build-push-ecr
+              if: steps.filter.outputs.worker-server == 'true'
+              with:
+                service_name: docker/worker-server/
+                image_tag: rapid-worker-server
+                dockerfile_path: docker/worker-server/Dockerfile
+                ecr_repo_name: ${{ secrets.ECR_REPO_NAME }}
+
+            - name: Build and push db to ECR
+              uses: ./.github/actions/build-push-ecr
+              if: steps.filter.outputs.db == 'true'
+              with:
+                service_name: docker/db/
+                image_tag: rapid-db
+                dockerfile_path: docker/db/Dockerfile
                 ecr_repo_name: ${{ secrets.ECR_REPO_NAME }}
