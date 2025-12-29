@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker-server
+  namespace: rapidconnect
+  labels:
+    app: worker-server
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+
+  selector:
+    matchLabels:
+      app: worker-server
+
+  template:
+    metadata:
+      labels:
+        app: worker-server
+    spec:
+      containers:
+        - name: worker-server
+          image: 857565654393.dkr.ecr.ap-south-1.amazonaws.com/rapidconnect:rapid-worker-server
+          imagePullPolicy: IfNotPresent
+
+          envFrom:
+            - configMapRef:
+                name: worker-server-config
+            - secretRef:
+                name: api-server-secrets   # reuse same credentials
+
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "300m"
+              memory: "256Mi"

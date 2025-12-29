@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-server
+  namespace: rapidconnect
+  labels:
+    app: api-server
+spec:
+  replicas: 2
+  revisionHistoryLimit: 2
+
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+
+  selector:
+    matchLabels:
+      app: api-server
+
+  template:
+    metadata:
+      labels:
+        app: api-server
+    spec:
+      containers:
+        - name: api-server
+          image: 857565654393.dkr.ecr.ap-south-1.amazonaws.com/rapidconnect:rapid-api-server
+          imagePullPolicy: IfNotPresent
+
+          ports:
+            - containerPort: 5001
+
+          envFrom:
+            - configMapRef:
+                name: api-server-config
+            - secretRef:
+                name: api-server-secrets
+
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5001
+            initialDelaySeconds: 5
+            periodSeconds: 10
+
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5001
+            initialDelaySeconds: 15
+            periodSeconds: 20
