@@ -1,41 +1,88 @@
-### My deploy a micro-svc appn with redis proj requirement gatherings :
+────────────────────────────────
+PROJECT EXECUTION ORDER (GUIDE)
+────────────────────────────────
 
-Deploy & break locally first
+1️⃣ Terraform — START HERE (Correct Next Step)
+   Purpose:
+   - Create a stable, repeatable foundation
+   - Avoid rework later
 
-```Docker before Kubernetes
-Deploy locally before taking things to AWS cloud
-Reverse proxy with TLS termination before AWS ALB
-Feeling lost means you're learning correctly
-I can't skip the foundation!! Devops will be about foundation only.
-AI will accelerate debugging, when I already have the context.
-```
+   What to provision first:
+   - VPC (public/private subnets, routing)
+   - IAM (EKS roles, node roles, OIDC)
+   - EKS cluster + node groups
+   - Security groups & networking
+   - API Gateway (base setup, HTTPS)
+   - Remote state (S3 + DynamoDB)
 
-##### **Credentials** 
-* Github Repo : https://github.com/diptishegar/RapidConnect-Deployment.git
-* Github provider Url : https://token.actions.githubusercontent.com, Audience: sts.amazonaws.com 
-* Github OIDC ARN : arn:aws:iam::857565654393:oidc-provider/token.actions.githubusercontent.com
-* server Public IP : 35.154.17.170
-* Cluster IP : 15.206.66.45
+   Why first?
+   - Everything else depends on infra
+   - Prevents configuration drift
+   - Matches enterprise workflow
 
-**Try sending some data to the backend**
-curl -X POST http://13.233.236.142:5001/create -H "Content-Type: application/json" -d '{"data":"hello"}'
+────────────────────────────────
 
-**Commands :**
+2️⃣ Kubernetes Base Setup (After Terraform)
+   - Configure kubeconfig from EKS
+   - Create namespaces (app, monitoring, argocd)
+   - Apply base RBAC & resource quotas
+   - Verify cluster health
 
-```kubectl apply -f namespaces/
-kubectl apply -f services/ --recursive
-kubectl apply -f ingress/
-kubectl apply -f policies/
-```
-**Use alias to avoid repetitve 'sudo kubectl'**
-`alias k="sudo kubectl"`
+────────────────────────────────
 
-**Set Default Namespace**
-`k config set-context --current --namespace=rapidconnect`
+3️⃣ Argo CD (GitOps Layer)
+   - Deploy Argo CD to EKS
+   - Connect Argo CD to GitHub repo
+   - Define Application manifests
+   - Enable auto-sync & self-heal
 
-**Install Prometheus & Grafana on Ubuntu EC2 Instance**
-`sudo apt update -y`
+   Why here?
+   - CD should manage everything after this
+   - No kubectl apply in production
 
+────────────────────────────────
 
-curl http://15.206.66.45:9100/metrics
+4️⃣ Application Deployment (Via Argo CD)
+   - Deploy microservices manifests
+   - Configure Services & Ingress (internal)
+   - Validate pod health & rollout strategy
 
+────────────────────────────────
+
+5️⃣ Secure Exposure (API Gateway)
+   - Integrate API Gateway → EKS
+   - Enforce HTTPS-only access
+   - No direct public load balancer exposure
+
+────────────────────────────────
+
+6️⃣ Observability (Last, but Critical)
+   - Install Prometheus
+   - Install Grafana
+   - Add dashboards:
+     • Cluster metrics
+     • Node metrics
+     • App metrics
+   - Configure alerts (optional)
+
+────────────────────────────────
+
+7️⃣ Hardening & Reliability Enhancements
+   - HPA for microservices
+   - Pod disruption budgets
+   - Resource limits & requests
+   - Rollback testing via Argo CD
+
+────────────────────────────────
+
+ONE-LINE RULE TO REMEMBER
+────────────────────────────────
+CI → Terraform → EKS → Argo CD → App → Exposure → Monitoring
+
+This order = **production-grade DevOps workflow**.
+
+If you want next:
+- Terraform folder structure
+- EKS Terraform modules
+- Argo CD app manifests
+- API Gateway → EKS integration pattern
