@@ -72,10 +72,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+const apiRouter = express.Router();
 
 // express endpoints
 app.get("/", (_, res) => res.status(200).send("connected to server 1!"));
-app.get("/data", async (_, res) => {
+apiRouter.get("/data", async (_, res) => {
   try {
     const cachedData = await getRedisCache();
     if (cachedData) {
@@ -95,7 +96,7 @@ app.get("/data", async (_, res) => {
   }
 });
 
-app.post("/create", async (req, res) => {
+apiRouter.post("/create", async (req, res) => {
   const { data } = req.body;
   try {
     if (!data) throw new Error("missing data");
@@ -108,5 +109,7 @@ app.post("/create", async (req, res) => {
     res.status(500).json({ message: "failure", error });
   }
 });
+
+app.use("/api", apiRouter);
 
 app.listen(expressPort, () => console.log(`served on port ${expressPort}`));
