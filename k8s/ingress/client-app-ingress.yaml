@@ -3,10 +3,12 @@ kind: Ingress
 metadata:
   name: client-app-ingress
   namespace: rapidconnect
+  annotations:
+    kubernetes.io/ingress.class: haproxy
 spec:
   ingressClassName: haproxy
   rules:
-    - host: localhost
+    - host: api.local
       http:
         paths:
           - path: /
