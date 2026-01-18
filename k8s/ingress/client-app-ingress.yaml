@@ -18,3 +18,10 @@ spec:
                 name: client-app
                 port:
                   number: 80
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: api-server
+                port:
+                  number: 5001
