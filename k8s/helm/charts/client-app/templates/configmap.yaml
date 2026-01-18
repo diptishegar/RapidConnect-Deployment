@@ -4,4 +4,4 @@ metadata:
   name: client-app-config
   namespace: rapidconnect
 data:
-  REACT_APP_API_URL: "http://api-server:5001"
+  REACT_APP_API_URL: "/api"
