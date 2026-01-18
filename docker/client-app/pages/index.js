@@ -3,7 +3,7 @@ import axios from "axios";
 export default function Home() {
   const [value, updateValue] = useState("create new data");
   const [input, setInput] = useState("");
-  const baseUrl = `http://${process.env.REACT_APP_API_URL}:5001`;
+  const baseUrl = `api-server`;
   const getDataUrl = `${baseUrl}/data`;
   const createDataUrl = `${baseUrl}/create`;
 

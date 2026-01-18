@@ -6,7 +6,7 @@ metadata:
   labels:
     app: api-server
 spec:
-  replicas: 2
+  replicas: {{ .Values.replicaCount }}
   revisionHistoryLimit: 2
 
   strategy:
@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
         - name: api-server
-          image: 857565654393.dkr.ecr.ap-south-1.amazonaws.com/rapidconnect:rapid-api-server
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}       
           imagePullPolicy: IfNotPresent
 
           ports:
@@ -46,16 +46,5 @@ spec:
               cpu: "500m"
               memory: "512Mi"
 
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: 5001
-            initialDelaySeconds: 5
-            periodSeconds: 10
-
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: 5001
-            initialDelaySeconds: 15
-            periodSeconds: 20
+      imagePullSecrets:
+        - name: regcred

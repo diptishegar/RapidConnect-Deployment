@@ -3,9 +3,12 @@ kind: Ingress
 metadata:
   name: client-app-ingress
   namespace: rapidconnect
+  annotations:
+    haproxy.org/path-rewrite: "/"
 spec:
+  ingressClassName: haproxy
   rules:
-    - host: rapidconnect.local
+    - host: localhost
       http:
         paths:
           - path: /

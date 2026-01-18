@@ -1,0 +1,9 @@
+# Default values for api-server.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
+replicaCount: 1
+image:
+  repository: 857565654393.dkr.ecr.ap-south-1.amazonaws.com/rapidconnect
+  tag: rapid-api-server

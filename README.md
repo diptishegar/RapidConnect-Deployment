@@ -1,6 +1,6 @@
 # Production-Grade Microservices Deployment on AWS EKS, provision entire set-up using Terraform.
 
-**About Architecture :**
+**About Architecture :** \
 ✔ Functionality is split into independent services \
 ✔ Trigger CI pipeline only when the code change for individual service \
 ✔ Each service is independently deployable \
@@ -9,7 +9,7 @@
 ✔ Failures are isolated (blast radius control) \
 
 ## 📍 **Project Objective :**
-Deploy a **microservices-based application** on **AWS EKS** using a **production-ready DevOps architecture**. The project focuses on **end-to-end automated CI/CD** using GitOps approach, **infrastructure as code**, **secure exposure**, and valuable monitoring mirroring real-world enterprise deployments.
+Deploy a **microservices-based application** on **AWS EKS** using a **production-ready DevOps architecture**. The project focuses on **end-to-end automated CI/CD** using GitOps approach with rollouts/rollbacks, **infrastructure as code**, **secure exposure**, and valuable monitoring mirroring real-world enterprise deployments.
 
 ## 🛠️ **Tools Used :**
 * **AWS** : EKS, API Gateway, IAM, VPC, ECR  

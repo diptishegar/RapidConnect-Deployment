@@ -6,7 +6,7 @@ metadata:
   labels:
     app: worker-server
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicaCount }}
   revisionHistoryLimit: 1
 
   strategy:
@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
         - name: worker-server
-          image: 857565654393.dkr.ecr.ap-south-1.amazonaws.com/rapidconnect:rapid-worker-server
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: IfNotPresent
 
           envFrom:
@@ -42,3 +42,5 @@ spec:
             limits:
               cpu: "300m"
               memory: "256Mi"
+      imagePullSecrets:
+        - name: regcred

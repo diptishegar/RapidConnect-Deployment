@@ -86,3 +86,95 @@ If you want next:
 - EKS Terraform modules
 - Argo CD app manifests
 - API Gateway → EKS integration pattern
+
+
+• Infrastructure Layer   → Terraform (AWS)
+• Platform Layer         → EKS + cluster add-ons
+• Delivery Layer         → CI + GitOps (Argo CD)
+• Application Layer      → Microservices
+• Observability Layer    → Prometheus / Grafana
+• Security Layer         → IAM, network, exposure
+
+**Security on AWS :**
+• Separate IAM roles:
+  - EKS cluster role
+  - Node group role
+  - IRSA roles for workloads
+
+• Use OIDC + IRSA:
+  - Pods get AWS permissions
+  - No hardcoded credentials
+  - Least privilege
+
+EKS PATTERNS TO IMPLEMENT:
+-------------------------
+• Managed node groups
+• Auto Scaling enabled
+• Multiple AZs
+• Stateless services
+
+Add from day one:
+-----------------
+• Resource requests & limits
+• Readiness & liveness probes
+
+**Gateway API exposure :**
+• TLS termination
+• Rate limiting potential
+• Zero public EKS exposure
+• Enterprise ingress pattern
+
+
+**Observability :**
+
+Metrics you must show:
+----------------------
+• Node health
+• Pod health
+• Resource usage
+• App availability
+	
+#### MY AWS Resources :
+1. VPC, subnets, internet gateway, route tables (for public subnet) \
+2. API Gateway \ 
+        * Handles inbound traffic
+		* Routes client->service->pod 
+		* Used for exposure, routing, TLS, paths
+3. NAT Gateway \
+		*  Handles outbound traffic
+		* Allows pods -> internet : to pull images from ECR/installing packages/calling external APIs(notificatn, payment gatw)
+		* Sending logs to Cloudwatch/other monitoring svcs
+		* node-lvl updates
+		* aws control-plan comm (STS role assume, IAM token refresh, add-on updates)
+	Cost :
+		* Data transfer 
+		* Data usage
+		* Data processing /GB
+		
+4. Elastic IPs \
+It is only for public access, not private comm \
+EIP is not required when ALB/NLB is used \
+solves prbm : changing IP address of servers, reliable conns, production stability, customer-facing WDs \
+Used with : NAT Gateway, Bastion Hosts, wherever comm from fixed IP is required. \
+5 EIPs/region, mostly ALB is preferred \
+
+#### Incurred Zero-NAT Gateway cost?
+Use terraform apply to enable the NAT gateway during the deployment to pull images/install dependencies
+Disable it post Deployment
+
+#### VPC networking
+**Creating VPC for Rapidconnect project**
+1. Start by creating the VPC : \
+enable_dns_support & enable_dns_hostnames are used to resolve the DNS within VPC or else use external through DHCP options \
+While using EKS, VPC endpoints & peering require this enabled \
+
+2. Create Subnet : \
+created dynamic block which allows to create subnets for any number/type of Subnet
+
+3. Create a Internet Gateway
+Created a internet gateway which routes traffic to/from my public subnet
+
+4. Create a NAT Gateway/EIP
+Pulling ECR images, external API calls, Package installation
+
+5. 
