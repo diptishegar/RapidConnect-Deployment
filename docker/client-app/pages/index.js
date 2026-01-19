@@ -3,7 +3,7 @@ import axios from "axios";
 export default function Home() {
   const [value, updateValue] = useState("create new data");
   const [input, setInput] = useState("");
-  const baseUrl = "/api";
+  const baseUrl = `/api`;
   const getDataUrl = `${baseUrl}/data`;
   const createDataUrl = `${baseUrl}/create`;
 
