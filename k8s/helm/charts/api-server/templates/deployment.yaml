@@ -27,7 +27,7 @@ spec:
       containers:
         - name: api-server
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}       
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
 
           ports:
             - containerPort: 5001

@@ -30,6 +30,7 @@ spec:
                 configMapKeyRef:
                   name: api-server-config
                   key: MYSQL_DATABASE
+          imagePullPolicy: Always
       imagePullSecrets:
         - name: regcred
 

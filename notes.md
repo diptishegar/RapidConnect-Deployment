@@ -177,4 +177,4 @@ Created a internet gateway which routes traffic to/from my public subnet
 4. Create a NAT Gateway/EIP
 Pulling ECR images, external API calls, Package installation
 
-5. 
+

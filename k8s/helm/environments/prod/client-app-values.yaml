@@ -1,4 +1,5 @@
 replicaCount: 1
 image:
   repository: 857565654393.dkr.ecr.ap-south-1.amazonaws.com/rapidconnect
-  tag: rapid-client-app
+  tag: 
+    rapid-client-app
