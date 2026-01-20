@@ -34,4 +34,4 @@ Deploy a **microservices-based application** on **Kubernetes Cluster** using a *
 * Understanding **production CI/CD patterns** used in real enterprise platforms for microservice-based architecture.
 
 ## 😇 **To Implement :**
-* Valuable monitoring mirroring real-world enterprise deployments using Prometheus, Grafana & ELK
+* Valuable monitoring & observability using Prometheus, Grafana & ELK
