@@ -1,5 +1,1 @@
-notes.md
-terraform/terraform.tfvars
-terraform/terraform.tfstate
-terraform/terraform.lock.hcl
-terraform/.terraform/
+creds.txt

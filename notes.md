@@ -5,3 +5,5 @@
 * Observability Implemented using ELK Stack.
 * Scaling, Auto-healing, service discovery & Load Balancing amongst the services using Kubernetes fundamentals.
 * Lastly, secure traffic through HTTPS, Cloudflare & Gateway API (Routing, Rate Limiting, Basic Load balancing).
+
+1. Setup the Control & Data Plane on EC2 instances, install K3s.
