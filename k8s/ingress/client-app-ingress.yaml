@@ -11,6 +11,13 @@ spec:
   - host: webdemo.rapidconnect.com
     http:
       paths:
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: api-server
+            port: 
+              number: 5001
       - path: /
         pathType: Prefix
         backend:
@@ -18,3 +25,4 @@ spec:
             name: client-app
             port: 
               number: 80
+
